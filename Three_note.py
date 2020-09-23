@@ -2,7 +2,7 @@ import tkinter.messagebox as msgbox
 from tkinter import *
 import pyperclip  # 클립보드 사용하기 위한 모듈
 import time
-
+from tkinter import filedialog
 
 root = Tk()
 root.title("Three notepad")
@@ -12,61 +12,97 @@ root.resizable(False, False) # 크기 수정 금지
 # 노트패드 정보 알림
 def info():
     msgbox.showinfo("메모장 정보", "Three notepad\n2020.09.22\nHarry")
+
+# 찾아보기 함수
+
+def browse_txt_path():
+    folder_selected = filedialog.askdirectory()
+    if folder_selected == '' : #사용자가 취소를 누를 때
+        return
+    txt_path.delete(0,END)
+    txt_path.insert(0, folder_selected)
+    print(txt_path.get())
 # 첫번째 함수
 def firstcopy():
     pyperclip.copy(first_txt.get("1.0", END)) # 전체 내용 클립보드에 저장
     msgbox.showinfo("알림", "텍스트가 클립보드에 저장되었습니다.")
 def firstsave():
     curr_time = time.strftime("_%Y%m%d_%H%M%S")
-    if title_txt.get() == " 파일명을 입력하세요 ":
-        filename = "text01{}.txt".format(curr_time)
-    else :
-        filename = title_txt.get() + "_01{}.txt".format(curr_time) # 엔트리 값은 get()만 하면 됨.
+    try :
+        if txt_path.get() == " 경로를 설정하세요." :
+            msgbox.showerror("에러","경로를 설정하세요.")
+            return
+        if title_txt.get() == " 파일명을 입력하세요 ":
+            filename = "text01{}.txt".format(curr_time)
+        else :
+            filename = title_txt.get() + "_01{}.txt".format(curr_time) # 엔트리 값은 get()만 하면 됨.
 
-    with open(filename,"w", encoding="utf8") as file:
-        file.write(first_txt.get("1.0", END))
-
+        with open(txt_path.get()+"/"+filename,"w", encoding="utf8") as file:
+            file.write(first_txt.get("1.0", END))
+        msgbox.showinfo("완료", "지정된 경로에 저장되었습니다.")
+    except Exception as err : # 에러를 통으로 처리
+        msgbox.showerror("에러", err)
 # 두번째 함수
 def secondcopy():
     pyperclip.copy(second_txt.get("1.0", END))
     msgbox.showinfo("알림", "텍스트가 클립보드에 저장되었습니다.")
 def secondsave():
     curr_time = time.strftime("_%Y%m%d_%H%M%S")
-    if title_txt.get() == " 파일명을 입력하세요 ":
-        filename = "text02{}.txt".format(curr_time)
-    else :
-        filename = title_txt.get() + "_02{}.txt".format(curr_time) # 엔트리 값은 get()만 하면 됨.
+    try:
+        if txt_path.get() == " 경로를 설정하세요.":
+            msgbox.showerror("에러", "경로를 설정하세요.")
+            return
+        if title_txt.get() == " 파일명을 입력하세요 ":
+            filename = "text02{}.txt".format(curr_time)
+        else:
+            filename = title_txt.get() + "_02{}.txt".format(curr_time)  # 엔트리 값은 get()만 하면 됨.
 
-    with open(filename,"w", encoding="utf8") as file:
-        file.write(second_txt.get("1.0", END))
+        with open(txt_path.get() + "/" + filename, "w", encoding="utf8") as file:
+            file.write(second_txt.get("1.0", END))
+        msgbox.showinfo("완료", "지정된 경로에 저장되었습니다.")
+    except Exception as err:  # 에러를 통으로 처리
+        msgbox.showerror("에러", err)
 # 세번째 함수
 def thirdcopy():
     pyperclip.copy(third_txt.get("1.0", END))
     msgbox.showinfo("알림", "텍스트가 클립보드에 저장되었습니다.")
 def thirdsave():
     curr_time = time.strftime("_%Y%m%d_%H%M%S")
-    if title_txt.get() == " 파일명을 입력하세요 ":
-        filename = "text03{}.txt".format(curr_time)
-    else :
-        filename = title_txt.get() + "_03{}.txt".format(curr_time) # 엔트리 값은 get()만 하면 됨.
+    try:
+        if txt_path.get() == " 경로를 설정하세요.":
+            msgbox.showerror("에러", "경로를 설정하세요.")
+            return
+        if title_txt.get() == " 파일명을 입력하세요 ":
+            filename = "text03{}.txt".format(curr_time)
+        else:
+            filename = title_txt.get() + "_03{}.txt".format(curr_time)  # 엔트리 값은 get()만 하면 됨.
 
-    with open(filename,"w", encoding="utf8") as file:
-        file.write(third_txt.get("1.0", END))
+        with open(txt_path.get() + "/" + filename, "w", encoding="utf8") as file:
+            file.write(third_txt.get("1.0", END))
+        msgbox.showinfo("완료", "지정된 경로에 저장되었습니다.")
+    except Exception as err:  # 에러를 통으로 처리
+        msgbox.showerror("에러", err)
 # 모두 저장
 def allsave():
     curr_time = time.strftime("_%Y%m%d_%H%M%S")
-    if title_txt.get() == " 파일명을 입력하세요 ":
-        filename = "text{}.txt".format(curr_time)
-    else :
-        filename = title_txt.get() + "{}.txt".format(curr_time) # 엔트리 값은 get()만 하면 됨.
+    try:
+        if txt_path.get() == " 경로를 설정하세요.":
+            msgbox.showerror("에러", "경로를 설정하세요.")
+            return
+        if title_txt.get() == " 파일명을 입력하세요 ":
+            filename = "text{}.txt".format(curr_time)
+        else:
+            filename = title_txt.get() + "{}.txt".format(curr_time)  # 엔트리 값은 get()만 하면 됨.
+        with open(txt_path.get() + "/" + "01" + filename, "w", encoding="utf8") as file:
+            file.write(first_txt.get("1.0", END))
+        with open(txt_path.get() + "/" + "02" + filename, "w", encoding="utf8") as file:
+            file.write(second_txt.get("1.0", END))
+        with open(txt_path.get() + "/" + "03" + filename, "w", encoding="utf8") as file:
+            file.write(third_txt.get("1.0", END))
 
-    with open("01"+filename,"w", encoding="utf8") as file:
-        file.write(first_txt.get("1.0", END))
-    with open("02"+filename,"w", encoding="utf8") as file:
-        file.write(second_txt.get("1.0", END))
-    with open("03"+filename,"w", encoding="utf8") as file:
-        file.write(third_txt.get("1.0", END))
-
+        msgbox.showinfo("완료", "지정된 경로에 저장되었습니다.")
+    except Exception as err:  # 에러를 통으로 처리
+        msgbox.showerror("에러", err)
 
 # 메뉴
 menu = Menu(root)
@@ -84,12 +120,20 @@ menu.add_cascade(label="도움말", menu=menu_question)
 
 # 제목 프레임
 frame_title = Frame(root, padx=5, pady=0)
-frame_title.pack(padx=0, pady=0)
+frame_title.pack(fill="x", padx=0, pady=0)
 
 # 제목 엔트리 창
-title_txt = Entry(frame_title, width=90)
-title_txt.pack(side="top", fill="both", expand=True, padx=5, pady=5, ipady=3)
+title_txt = Entry(frame_title, width=18)
+title_txt.pack(side="left", fill="both", padx=8, pady=5, ipady=3)
 title_txt.insert(0, " 파일명을 입력하세요 ")
+
+# 경로 설정 창
+txt_path = Entry(frame_title, width=24)
+txt_path.pack(side="left", fill="both", padx=0, pady=5)
+txt_path.insert(0, " 경로를 설정하세요.")
+
+btn_txt_path = Button(frame_title, text="찾아보기", width=8, command = browse_txt_path)
+btn_txt_path.pack(side="left", padx=0)
 
 # 첫번째 레이블 프레임
 first_frame = LabelFrame(root, padx=5, pady=5, text="01")
